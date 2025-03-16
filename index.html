@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cricket Game</title>
+    <style>
+        body{
+            text-align: center;
+            background-color: rgb(209, 108, 108);
+            font-family:monospace;
+            color: rgb(132, 21, 21);
+        }
+        .container{
+            display:flex;
+            justify-content:space-evenly;
+            width:auto;
+        }
+        #results{
+            text-align: center;
+        }
+        .choice{
+            background-color: white;
+            border-radius: 50%;
+        }
+        .control{
+            border:2px solid black;
+            border-radius:20%;
+            color:rgb(132, 21, 21);
+            font-family:monospace;
+        }
+        img{
+            border-radius: 50%;
+        }
+        #msg{
+            font-size: large;
+        }
+        #results{
+            border:2px solid black;
+            border-radius: 5%;
+            width: 70vw;
+            height: 50vh;
+        }
+    </style>
+</head>
+<body>
+    <h1>Cricket Game, Play for fun!!!</h1>
+    <hr>
+    <div class="container">
+        <button class="choice" onclick="
+            choice='Bat';
+            comp_choice=computer_choice();
+            result=getResult(choice,comp_choice);
+            storeResult(result);
+            showResult();
+            updateScore(result);
+            " class="bat"><img src="bat.webp" alt="BAT" width="100"></button>
+        <button class="choice" onclick="
+            choice='Ball';
+            comp_choice=computer_choice();
+            result=getResult(choice,comp_choice);
+            storeResult(result);
+            showResult();
+            updateScore(result);
+        " class="ball"><img src="ball.webp" alt="BALL" width="100px"></button>
+        <button class="choice" onclick="
+            choice='Stumps';
+            comp_choice=computer_choice();
+            result=getResult(choice,comp_choice);
+            storeResult(result);
+            showResult();
+            updateScore(result);
+            " class="stumps"><img src="stumps.webp" alt="STUMPS" width="100px"></button>
+    </div><br>
+    <textarea name="result" id="results" readonly></textarea>
+    <br>
+    <p id="msg">Please reset before starting a fresh game!</p>
+    <button class="control" onclick="
+        showScores();
+        localStorage.setItem(`Game-${trial}`,JSON.stringify(score));
+        document.querySelector('#results').value=`Game-${trial} \n\n\nDetails:\n${JSON.stringify(res)}\n\n\nScores:\n${JSON.stringify(score)}`;
+    ">Result</button>
+    <button class="control" onclick="
+        score={
+                'won':0,
+                'lost':0,
+                'tie':0,
+            };
+        res={};
+        pass=1;
+        document.querySelector('#results').value='';
+        trial++;
+    ">Reset</button>
+    <script>
+        let trial=1;
+        let pass=1;
+        let res={};
+        let score={
+            'won':0,
+            'lost':0,
+            'tie':0,
+        };
+        function updateScore(res){
+            if(result===`You have won!`){
+                score['won']++;
+            }else if(result===`It's a Tie!`){
+                score['tie']++;
+            }else if(result===`Computer has won!`){
+                score['lost']++;
+            }
+        }
+        function showScores(){
+            console.log(score);
+        }
+        function storeResult(result){
+            res[`Pass${pass}`]=result;
+            pass++;
+        }
+        function showCummulativeResult(){
+            alert('Plese check the console for cummulative results.');
+            console.log(res);
+        }
+        function computerChoice(){
+            let rand=Math.random()*3;
+            if(rand>0 && rand<=1){
+                comp_choice='Bat';
+            }else if(rand>1 && rand<=2){
+                comp_choice='Ball';
+            }else if(rand>2 && rand<=3){
+                comp_choice='Stumps';
+            }
+            return comp_choice;
+        }
+        function computer_choice(){
+            let rand=Math.random()*3;
+            if(rand>0 && rand<=1){
+                return 'Bat';
+            }else if(rand>1 && rand<=2){
+                return 'Ball';
+            }else if(rand>2 && rand<=3){
+                return 'Stumps';
+            }
+        }
+        function showResult(){
+            document.querySelector('#results').value=`Your choice: ${choice}\nComputer's choice: ${comp_choice}\n${result}`;
+        }
+        function getResult(user,computer){
+            if(user && computer){
+                if(user==='Bat'){
+                    if(computer==='Ball'){
+                        return `You have won!`;
+                    }else if(computer==='Bat'){
+                        return `It's a Tie!`;
+                    }else if(computer==='Stumps'){
+                        return `Computer has won!`;
+                    }
+                }
+                if(user==='Ball'){
+                    if(computer==='Ball'){
+                        return `It's a Tie!`;
+                    }else if(computer==='Bat'){
+                        return `Computer has won!`;
+                    }else if(computer==='Stumps'){
+                        return `You have won!`;
+                    }
+                }
+                if(user==='Stumps'){
+                    if(computer==='Ball'){
+                        return `Computer has won!`;
+                    }else if(computer==='Bat'){
+                        return `You have won!`;
+                    }else if(computer==='Stumps'){
+                        return `It's a Tie!`;
+                    }
+                }
+            }else{
+                if(!user){
+                    return `User choice not received!`;
+                }else if(!computer){
+                    return `Computer choice not received!`;
+                }
+            }
+        }
+    </script>
+</body>
+</html>
