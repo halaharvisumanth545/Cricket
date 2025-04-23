@@ -78,7 +78,7 @@
     <button class="control" onclick="
         showScores();
         localStorage.setItem(`Game-${trial}`,JSON.stringify(score));
-        document.querySelector('#results').value=`Game-${trial} \n\n\nDetails:\n${JSON.stringify(res)}\n\n\nScores:\n${JSON.stringify(score)}`;
+        document.querySelector('#results').value=`Game-${trial} \n\n\nDetails:\n${JSON.stringify(res)}\n\n\nScore:\n${JSON.stringify(score)}`;
     ">Result</button>
     <button class="control" onclick="
         score={
